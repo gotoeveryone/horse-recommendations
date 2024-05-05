@@ -24,13 +24,16 @@ if __name__ == "__main__":
 
     races = "\n".join(
         [
-            ",".join(list(map(lambda x: str(x["horse_id"]), r["recommendation"])))
+            (
+                ",".join(list(map(lambda x: str(x["horse_id"]), r["recommendation"])))
+                + ("(自信あり)" if r["confidence_flag"] else "")
+            )
             for r in data["race_list"]
         ]
     )
 
     output_file = f"outputs/{date}_{track}.txt"
-    os.makedirs(os.path.dirname(output_file))
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     with open(output_file, mode="w") as f:
         f.writelines(races)
