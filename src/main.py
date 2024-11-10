@@ -32,7 +32,7 @@ if __name__ == "__main__":
         ]
     )
 
-    output_file = f"outputs/{date}_{track}.txt"
+    output_file = f"outputs/{date}/{track}.txt"
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     with open(output_file, mode="w") as f:
