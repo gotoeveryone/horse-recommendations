@@ -4,10 +4,10 @@ import sys
 import requests
 
 AREAS = {
-    "大井": "ohi",
-    "船橋": "funabashi",
-    "浦和": "urawa",
-    "川崎": "kawasaki",
+    "ohi": "大井",
+    "funabashi": "船橋",
+    "urawa": "浦和",
+    "kawasaki": "川崎",
 }
 
 if __name__ == "__main__":
@@ -17,7 +17,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     date = args[1]
-    area = args[2]  # 大井/船橋/浦和/川崎
+    area = args[2]  # ohi/funabashi/urawa/kawasaki
 
     if area not in AREAS:
         print(f"Invalid area, area: {area}")
@@ -33,15 +33,15 @@ if __name__ == "__main__":
         filter(lambda x: x["date"] == date, res.json()["data"]["recommendations"])
     )
     if not recommendations:
-        print(f"Data not found")
+        print("Data not found")
         sys.exit(1)
 
     recommendation = recommendations[0]
     racecourses = list(
-        filter(lambda x: x["name"] == area, recommendation["racecourses"])
+        filter(lambda x: x["name"] == AREAS[area], recommendation["racecourses"])
     )
     if not racecourses:
-        print(f"Data not found")
+        print("Data not found")
         sys.exit(1)
 
     racecourse = racecourses[0]
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         ]
     )
 
-    output_file = f"outputs/{date}_nankan_{AREAS[area]}.txt"
+    output_file = f"outputs/{date}/nankan_{AREAS[area]}.txt"
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     with open(output_file, mode="w") as f:
